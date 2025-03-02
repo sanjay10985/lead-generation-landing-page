@@ -40,6 +40,22 @@ export const metadata = {
     description:
       "Transform your networking and lead generation with LeadSeeder's powerful Chrome extension. Find verified emails and connect with decision-makers effortlessly.",
     siteName: "LeadSeeder",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 600,
+        alt: "LeadSeeder Logo",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LeadSeeder - Smart Networking & Lead Generation Tool",
+    description:
+      "Transform your networking and lead generation with LeadSeeder's powerful Chrome extension.",
+    images: ["/logo.png"],
+    creator: "@LeadSeeder",
   },
 };
 
