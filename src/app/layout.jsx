@@ -10,9 +10,37 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "StreamLine - Simplify Your Workflow",
+  metadataBase: new URL("https://leadseeder.com"),
+  title: {
+    default: "LeadSeeder - Smart Networking & Lead Generation Tool",
+    template: "%s | LeadSeeder",
+  },
   description:
-    "StreamLine is a powerful SaaS platform designed to streamline your business processes and boost productivity.",
+    "LeadSeeder is an innovative Chrome extension that revolutionizes networking and lead generation. Find verified business emails, connect with decision-makers, and grow your network efficiently.",
+  keywords: [
+    "lead generation",
+    "networking tool",
+    "email finder",
+    "business networking",
+    "sales prospecting",
+    "chrome extension",
+    "B2B leads",
+    "email verification",
+    "professional networking",
+    "lead generation software",
+  ],
+  authors: [{ name: "LeadSeeder Team" }],
+  creator: "LeadSeeder",
+  publisher: "LeadSeeder",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://leadseeder.com",
+    title: "LeadSeeder - Smart Networking & Lead Generation Tool",
+    description:
+      "Transform your networking and lead generation with LeadSeeder's powerful Chrome extension. Find verified emails and connect with decision-makers effortlessly.",
+    siteName: "LeadSeeder",
+  },
 };
 
 export default function RootLayout({ children }) {

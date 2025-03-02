@@ -5,9 +5,22 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
 import { Chrome } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const updateScrollState = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", updateScrollState);
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+
   const scrollToSection = (e, sectionId) => {
     e.preventDefault();
     const section = document.getElementById(sectionId);
@@ -16,34 +29,49 @@ export default function Header() {
     }
   };
 
+  const headerScale = useTransform(scrollY, [0, 50], [1, 0.95]);
+  const headerY = useTransform(scrollY, [0, 50], [0, -8]);
+  const logoScale = useTransform(scrollY, [0, 50], [1, 0.85]);
+
   return (
-    <header className="fixed top-0 w-full h-16 border-b border-border/40 bg-background/80 backdrop-blur-lg z-50 transition-all duration-300 ease-in-out">
+    <motion.header
+      style={{
+        scale: headerScale,
+        y: headerY,
+      }}
+      className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[100%] h-16 border border-border/40 bg-background/80 backdrop-blur-lg dark:bg-zinc-400/10 z-50 transition-all duration-300 ease-in-out rounded-none ${
+        isScrolled ? "mt-4 !max-w-[90%]  shadow-lg !rounded-md" : ""
+      }`}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
             <motion.div
+              style={{ scale: logoScale }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
               <Link
-                href="/"
-                className="text-2xl font-bold text-primary hover:opacity-80 transition-opacity"
+                href="/#hero"
+                className="text-2xl font-bold text-primary  transition-opacity"
               >
                 <div className="relative group">
                   <Image
                     src="/logo.png"
                     width={150}
                     height={70}
-                    className="transform transition-transform group-hover:scale-105"
+                    alt="Logo"
+                    className="transform transition-transform  dark:invert"
                   />
-                  <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </Link>
             </motion.div>
           </div>
           <motion.nav
-            className="hidden md:flex space-x-10"
+            className={`hidden md:flex space-x-10 transition-all duration-300 ${
+              isScrolled ? "scale-90" : ""
+            }`}
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -78,7 +106,9 @@ export default function Header() {
             </Link>
           </motion.nav>
           <motion.div
-            className="flex items-center space-x-4"
+            className={`flex items-center space-x-4 transition-all duration-300 ${
+              isScrolled ? "scale-90" : ""
+            }`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -99,6 +129,6 @@ export default function Header() {
           </motion.div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
